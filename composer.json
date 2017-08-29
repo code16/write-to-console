@@ -1,6 +1,6 @@
 {
     "name": "code16/write-to-console",
-    "description": "Simple Trait to interact with console from any PHP class",
+    "description": "Simple Trait to interact with artisan console from any PHP class",
     "keywords": ["laravel", "console", "helper"],
     "homepage": "https://code16.fr",
     "authors": [

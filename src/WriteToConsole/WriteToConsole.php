@@ -3,6 +3,7 @@
 namespace Code16\WriteToConsole;
 
 use Illuminate\Console\Command;
+use Psr\Log\LoggerInterface;
 
 /**
  * A simple traits that decorates the Command class, so we
@@ -19,6 +20,13 @@ trait WriteToConsole
     protected $console;
 
     /**
+     * Handle writing to the logger interface
+     * 
+     * @var \Code16\WriteToConsole\LogConsole
+     */
+    protected $logger;
+
+    /**
      * Set a console command to redirect output to
      * 
      * @param Command $console
@@ -27,6 +35,16 @@ trait WriteToConsole
     public function setConsole(Command $console)
     {
         $this->console = $console;
+    }
+
+    /**
+     * Set a logger interface to redirect output to
+     * 
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = new LogConsole($logger);
     }
 
     /**
@@ -40,6 +58,10 @@ trait WriteToConsole
         if($this->console) {
             $this->console->line($text);
         }
+
+        if($this->logger) {
+            $this->logger->line($text);
+        }
     }
 
     /**
@@ -52,6 +74,10 @@ trait WriteToConsole
     {
         if($this->console) {
             $this->console->info($text);
+        }
+
+        if($this->logger) {
+            $this->logger->info($text);
         }
     }
 
@@ -77,6 +103,10 @@ trait WriteToConsole
         if($this->console) {
             $this->console->comment($text);
         }
+
+        if($this->logger) {
+            $this->logger->comment($text);
+        }
     } 
 
     /**
@@ -90,6 +120,10 @@ trait WriteToConsole
         if($this->console) {
             $this->console->error($text);
         }
+
+        if($this->logger) {
+            $this->logger->error($text);
+        }
     }
 
     /**
@@ -101,7 +135,7 @@ trait WriteToConsole
      */
     protected function table($headers, $rows)
     {
-        if($this->console) {
+        if($this->console instanceof Command) {
             $this->console->table($headers, $rows);
         }
     }

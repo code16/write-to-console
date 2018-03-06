@@ -4,7 +4,7 @@ This is a simple trait to allow a third party class to output to an artisan cons
 
 Useful when implementing heavy procedural scripts which code is shared with other part of the application, or just written in its own class for easier testability. 
 
-It simply redirects the `info()` , `error()` , `warning()` and `progressBar()` methods to the command object set by calling the public `setConsole()` method of the trait, or just pass-through if no command object is set. 
+It simply redirects the `info()` , `error()` , `comment()`, `table()` and `progressBar()` methods to the command object set by calling the public `setConsole()` method of the trait, or just pass-through if no command object is set. 
 
 ## Example
 
@@ -92,9 +92,26 @@ class DataImportsCommand extends Command
 
 ```
 
+## Output text to a logger
+
+`WriteToConsole` also accepts a Psr-3 compatible logger as additionnal argument. Therefore every methods, excepts table() and progressBar(), will be redirected to the logger. 
+
+```
+    public function handle()
+    {   
+        $importer = app(DataImporter::class);
+        $importer->setConsole($this);
+
+        $logger = app(\Psr\Log\LoggerInterface::class);
+        $importer->setLogger($logger);
+
+        $importer->execute();
+
+    }
+```
 
 ## License
 
 MIT
 
-(c) 2017 Code16.fr
+(c) 2018 Code16.fr

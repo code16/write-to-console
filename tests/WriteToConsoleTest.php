@@ -1,13 +1,12 @@
 <?php
 
-use Stubs\TestScript;
 use Stubs\TestCommand;
 use Stubs\TestKernel;
-use Illuminate\Foundation\Console\Kernel;
+use Stubs\TestScript;
 
 class WriteToConsoleTest extends Orchestra\Testbench\TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
 	{
     	parent::setUp();
     	$this->app->singleton(Illuminate\Contracts\Console\Kernel::class, TestKernel::class);
